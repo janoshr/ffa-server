@@ -1,0 +1,8 @@
+# python environment
+env
+
+# environment variables
+.env
+
+# models
+*.tflite

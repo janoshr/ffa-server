@@ -6,3 +6,4 @@ env
 
 # models
 *.tflite
+models/*

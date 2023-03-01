@@ -75,11 +75,12 @@ def root():
     for key, features in section_features.items():
         data = df[features]
         row = np.array(data.to_numpy(), dtype=np.float32)
-        state = np.argmax(models[key].predict(row, verbose=0))
+        state = np.argmax(models[key].predict(row, verbose=0)[0])
+
         res[key] = PATIENT_STATE[state]
     # PatientState prediction
     row = np.array(df.to_numpy(), dtype=np.float32)
-    state = np.argmax(models['nnmodel'].predict(row, verbose=0))
+    state = np.argmax(models['nnmodel'].predict(row, verbose=0)[0])
     res['patientState'] = PATIENT_STATE[state]
 
     print('PREDICTIONS:', res)

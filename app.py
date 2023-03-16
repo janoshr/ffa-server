@@ -6,7 +6,18 @@ import numpy as np
 
 app = Flask(__name__)
 
-model_names = ['all', 'fever', 'general', 'hydration', 'medication','pulse','respiration', 'skin','nnmodel']
+model_names = [
+    'all',
+    'fever',
+    'general',
+    'hydration',
+    'medication',
+    'pulse',
+    'respiration',
+    'skin',
+    'caregiver',
+    'nnmodel',
+]
 
 models = {}
 
@@ -57,6 +68,11 @@ section_features = {
         'vaccinationIn14days',
         'vaccinationHowManyHoursAgo',
         'wryNeck'],
+    'caregiver': [
+        'caregiverConfident',
+        'caregiverFeel',
+        'caregiverThink',
+    ],
 }
 
 
@@ -79,8 +95,8 @@ def root():
 
         res[key] = PATIENT_STATE[state]
     # PatientState prediction
-    row = np.array(df.to_numpy(), dtype=np.float32)
-    state = np.argmax(models['nnmodel'].predict(row, verbose=0)[0])
+    row = np.array(df.drop(columns=section_features['caregiver']).to_numpy(), dtype=np.float32)
+    state = np.argmax(models['all'].predict(row, verbose=0)[0])
     res['patientState'] = PATIENT_STATE[state]
 
     print('PREDICTIONS:', res)
